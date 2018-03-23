@@ -233,93 +233,10 @@ for inc in serv_cent_incs:
 ##    pickle.dump(serv_cent_incs, open('serv_cent_configured', 'wb'))
     
 
-
-print('\n--> Loading dictionary of matricies ...')
-'''
-try:
-    #associate values to keys in dictionary
-    dictionary = {}# will contain all business_service:associated_matricies
-    for key in os.listdir('./dictionary_keys'):
-        key = open('./dictionary_keys/' + key)
-        key = str(key).split('-')
-        if key[0] not in dictionary:
-            dictionary[key[0]] = {}
-            
-            for filename in os.listdir('./dictionary_keys'):
-                filename = open('./dictionary_keys/' + filename)
-                if str(filename)[:len(key[0])] == key[0]:
-                    filename = filename.split('-')
-                    if filename[1] not in dictionary[key[0]].keys():
-                        dictionary[key[0]][filename[1]] = pickle.load( open( filename, "rb" ))
-
-            unzipped_files = []
-            for array in dictionary[key[0]]:
-                unzipped_files.append(dictionary[key[0]][array])
-
-            dictionary[key[0]] = unzipped_files
-    
-                        
-    #dictionary = pickle.load( open( "dict", "rb" ))
-'''
-
-print('-<> Loading of dictionary failed, so it must be compiled locally.')
-dictionary = {}# will contain all business_service:associated_matricies
-for inc in all_incidents:
-    if i % 2000 == 0:
-        print('  --> {}% of dictionary compiled'.format((i*100)//len(all_incidents)))
-        
-    if inc.business_service not in dictionary:
-        dictionary[inc.business_service] = []
-
-        
-    #print(inc.lexicon)
-    dictionary[inc.business_service].append(inc.lexicon)
-            
-    '''
-    #gives exclusivity of words at all dictionary[bs] locations
-    for bs in dictionary:
-        if bs != inc.business_service:
-            for i, word in enumerate(dictionary[bs]):
-                if i < len(dictionary[bs]) - 1:
-                    if word == matrix:
-                        del dictionary[bs][i]
-    '''
-from sklearn.decomposition import IncrementalPCA
-
-ipca = IncrementalPCA(n_components=3, batch_size=100)
-all_matricies = [inc.lexicon for inc in serv_cent_incs]
-print(len(all_matricies))
-#use PCA to create new dictionary
-print('-<> Dictionary contains the following keys:')
-for key in dictionary:
-    print('-<>--> ',key)
-    all_matricies.append(dictionary[key])
-    '''
-    for i in range(0, 10):
-        pickle.dump( dictionary[key], open( "./dictionary_keys/{}-{}".format(key, i), "wb" ))
-    '''
-    
-length_tensor = len(all_matricies)
-print('\n--> Preparing to fit PCA classifier over word tensor of length:',length_tensor)
-print(all_matricies[0])
-ipca.fit(all_matricies)
-
-
-
-
-
-
-
 # Use database and cosine similarities to get predictions
 #  -> Find some metric for individual business services
 #  -> Find which service_center Incidents are incorrectly classified
 #  ---<> Use max cosine similarity as predictor
-
-#--> hiyuguogy
-#==<>kutfkyutfyj
-#==> kutfkyutfyj
-#--<>kutfkyutfyj
-#--> hiyuguogy
 
 
 
