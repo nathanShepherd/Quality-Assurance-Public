@@ -1,7 +1,7 @@
 from nltk import word_tokenize
 import pandas as pd
 import codecs
-
+ 
 ci_canvas = pd.read_csv(codecs.open("CI_contains_Canvas.csv", "r",encoding='utf-8', errors='ignore'))
 sd_ctools = pd.read_csv(codecs.open("service_detail_contains_ctools.csv", "r",encoding='utf-8', errors='ignore'))
 sd_qualtrics = pd.read_csv(codecs.open("service_detail_Qualtrics.csv", "r",encoding='utf-8', errors='ignore'))
